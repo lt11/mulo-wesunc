@@ -54,38 +54,38 @@ pon_path="/home/shared/dbs/grch38/gatk-pon/1000g-pon-hg38.vcf.gz"
 
 ## clmnt ----------------------------------------------------------------------
 
-# ### quality check
-# /usr/bin/time -v bash fq-check.sh \
-# > "logs/fq-check.out" 2> "logs/fq-check.err" &
+### quality check
+/usr/bin/time -v bash fq-check.sh \
+> "logs/fq-check.out" 2> "logs/fq-check.err" &
 
-# ### reference indexing
-# /usr/bin/time -v bash index-ref.sh "${ref_name}" \
-# > "logs/index-ref.out" 2> "logs/index-ref.err"
+### reference indexing
+/usr/bin/time -v bash index-ref.sh "${ref_name}" \
+> "logs/index-ref.out" 2> "logs/index-ref.err"
 
-# ### mapping
-# /usr/bin/time -v bash map-sr.sh "${ref_name}" "${popu_samp}" \
-# > "logs/map-sr.out" 2> "logs/map-sr.err"
+### mapping
+/usr/bin/time -v bash map-sr.sh "${ref_name}" "${popu_samp}" \
+> "logs/map-sr.out" 2> "logs/map-sr.err"
 
-# ### coverage statistics
-# /usr/bin/time -v bash depth-stats.sh \
-# > "logs/depth-stats.out" 2> "logs/depth-stats.err" &
+### coverage statistics
+/usr/bin/time -v bash depth-stats.sh \
+> "logs/depth-stats.out" 2> "logs/depth-stats.err" &
 
-# ### vardict sets the filters and reads the padded bed done before
-# /usr/bin/time -v bash call-vardict-unc.sh "${ref_name}" "${popu_samp}" \
-# > "logs/call-vardict-unc.out" 2> "logs/call-vardict-unc.err"
+### vardict sets the filters and reads the padded bed done before
+/usr/bin/time -v bash call-vardict-unc.sh "${ref_name}" "${popu_samp}" \
+> "logs/call-vardict-unc.out" 2> "logs/call-vardict-unc.err"
 
-# ### calling with gatk
-# /usr/bin/time -v bash call-gatk-unc.sh "${ref_name}" \
-# "${popu_samp}" "${pon_path}" \
-# > "logs/call-gatk-unc.out" 2> "logs/call-gatk-unc.err"
+### calling with gatk
+/usr/bin/time -v bash call-gatk-unc.sh "${ref_name}" \
+"${popu_samp}" "${pon_path}" \
+> "logs/call-gatk-unc.out" 2> "logs/call-gatk-unc.err"
 
-# ### normalise and de-duplicate the variants
-# /usr/bin/time -v bash norm-var-unc.sh \
-# > "logs/norm-var-unc.out" 2> "logs/norm-var-unc.err"
+### normalise and de-duplicate the variants
+/usr/bin/time -v bash norm-var-unc.sh \
+> "logs/norm-var-unc.out" 2> "logs/norm-var-unc.err"
 
-### intersect and filter
-/usr/bin/time -v bash int-flt-var-unc.sh \
-> "logs/int-flt-var-unc.out" 2> "logs/int-flt-var-unc.err"
+### hard filter gatk, intersect, and filter vardict
+/usr/bin/time -v bash fint-var-unc.sh \
+> "logs/fint-var-unc.out" 2> "logs/fint-var-unc.err"
 
 ### annotation with snpeff
 /usr/bin/time -v bash anno-snpeff-unc.sh "${snpeff_path}" "${snpsift_path}" \
