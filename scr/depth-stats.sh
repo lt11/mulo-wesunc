@@ -9,7 +9,7 @@
 full_dir=$(cd $(dirname "${0}") && pwd)
 base_dir=$(dirname "${full_dir}")
 pll_runs=8
-intervals_file="$(find "${base_dir}/cpk" -name "*pad100.bed")"
+intervals_file="$(find "${base_dir}/cpk" -name "*intervals.bed")"
 
 ### output folder
 out_dir="${base_dir}/cov"
@@ -33,6 +33,7 @@ for ind_m in $(ls "map-sr/"*"bam"); do
 
   (
   map_name=$(echo "${ind_m}" | cut -d "/" -f 2 | cut -d "-" -f 1,2)
+
   samtools depth "${ind_m}" > "${out_dir}/${map_name}-depth.txt"
   ref_len=$(samtools view -H "${ind_m}" | \
   grep "^@SQ" | cut -f 3 | cut -d ":" -f 2 | \
@@ -42,7 +43,7 @@ for ind_m in $(ls "map-sr/"*"bam"); do
   print "Contig covered (%) = " 100*NR/RL; \
   print "Contig size = " RL; \
   print "Mean (depth) =", sum/NR; \
-  print "SD (depth) =", sqrt(sumsq/NR - (sum/NR)**2)}' \ 
+  print "SD (depth) =", sqrt(sumsq/NR - (sum/NR)**2)}' \
   "${out_dir}/${map_name}-depth.txt" > "${out_dir}/${map_name}-wg-mean.txt"
   
   samtools depth "${ind_m}" \
