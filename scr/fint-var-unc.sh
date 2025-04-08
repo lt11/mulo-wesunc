@@ -2,8 +2,7 @@
 
 ## header  --------------------------------------------------------------------
 
-### the one that hard-filters and intersects the unmatched small variants, 
-### and then keeps only the high-impact ones
+### the one that hard-filters and intersects the unmatched small variants
 
 ## settings  ------------------------------------------------------------------
 
